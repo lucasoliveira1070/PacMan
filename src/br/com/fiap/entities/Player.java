@@ -3,7 +3,7 @@ package br.com.fiap.entities;
 import br.com.fiap.interfaces.Movement;
 
 public class Player extends GameObject implements Movement {
-	private Integer direction; // 0-> eixo X - 1->eixo Y
+	private Integer direction;
 	private Integer hp;
 	private Boolean invencible;
 
@@ -12,7 +12,7 @@ public class Player extends GameObject implements Movement {
 	}
 
 	public Player(Integer positionX, Integer positionY, Integer direction) {
-		super(positionX,positionY);
+		super(positionX, positionY);
 		this.direction = direction;
 	}
 
@@ -45,18 +45,43 @@ public class Player extends GameObject implements Movement {
 	}
 
 	public boolean canMove() {
-		int newPositionX = this.getPositionX() + 10;
-		int newPositionY = this.getPositionY() + 10;
-
-		if (newPositionX > this.getScreenSize() || newPositionY > this.getScreenSize()) {
-			return false;
-		} else {
-			return true;
+		switch (this.direction) {
+		case 0:
+			if (this.getPositionY() - 10 < 0)
+				return false;
+		case 90:
+			if (this.getPositionX() + 10 > this.getScreenSize())
+				return false;
+		case 180:
+			if (this.getPositionY() + 10 > this.getScreenSize())
+				return false;
+		case 270:
+			if (this.getPositionX() - 10 < 0)
+				return false;
 		}
+		return true;
 	}
 
-	public void move(Integer direction) {
+	public void move() {
 		if (canMove()) {
+			switch (direction) {
+			case 0:
+				this.setPositionY(this.getPositionY() - 10);
+				System.out.println(getPositionY());
+				break;
+			case 90:
+				this.setPositionX(this.getPositionX() + 10);
+				System.out.println(this.getPositionX());
+				break;
+			case 180:
+				this.setPositionY(this.getPositionY() + 10);
+				System.out.println(this.getPositionY());
+				break;
+			case 270:
+				this.setPositionX(this.getPositionX() - 10);
+				System.out.println(this.getPositionX());
+				break;
+			}
 		}
 	}
 }
